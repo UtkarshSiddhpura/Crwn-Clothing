@@ -1,0 +1,116 @@
+.category-container {
+  min-width: 30%;
+  height: 240px;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 5px 12px rgba(0, 0, 0, .25);
+  border-radius: 4px;
+  margin: 0 10px 20px;
+  overflow: hidden;
+  font-family: sans-serif;
+
+  &:hover {
+    cursor: pointer;
+
+    & .background-image {
+      transform: scale(1.1);
+    }
+
+    & .category-body-container {
+      box-shadow: 5px 5px 0 30px rgba(0, 0, 0, .4);
+
+      h2,p{
+        color: white;
+      }
+
+      p{
+        font-weight: 700;
+        color: cyan;
+        &::after {
+          transform: scale(1);
+        }
+      }
+
+      &::before {
+        transform: scale(70);
+      }
+    }
+  }
+
+  &.large {
+    height: 380px;
+  }
+
+  &:first-child {
+    margin-right: 7.5px;
+  }
+
+  &:last-child {
+    margin-left: 7.5px;
+  }
+
+  .background-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform .5s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+  }
+
+  .category-body-container {
+    text-transform: uppercase;
+    height: 90px;
+    padding: 5px 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    opacity: .9;
+    position: absolute;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all .3s;
+
+
+    &::before {
+      content: "";
+      display: block;
+      top: 50%;
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 100%;
+      transform: scale(0);
+      background-color: rgba(0, 0, 0, .7);
+      transition: all .3s;
+      z-index: -1;
+    }
+
+    h2 {
+      font-weight: bold;
+      margin: 0 5px 0;
+      font-size: 20px;
+      color: #4a4a4a;
+    }
+
+    p {
+      font-weight: lighter;
+      font-size: 16px;
+
+      &::after {
+        content: "" ;
+        display: block;
+        margin-top: 2px;
+        width: 100%;
+        height: 2px;
+        background: white;
+        transform-origin: left;
+        transform: scale(0);
+        transition: all .3s ease-in;
+      }
+    }
+  }
+}
