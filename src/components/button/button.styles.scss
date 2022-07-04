@@ -1,0 +1,67 @@
+.button {
+	cursor: pointer;
+	border: none;
+	padding: 1rem 1.5em; 
+	font-size: 1.45vw;
+	font-family: inherit;
+	border-radius: 4px;
+	backface-visibility: hidden;
+	position: relative;
+
+	&:active {
+		transform: scale(.95);
+	}
+
+
+	&-icon-pad {
+		padding: 1rem 1.3em 1rem 2.6em; 
+	}
+	&-icon-container {
+		position: absolute;
+		font-size: 2vw;
+		left: 12px;
+		top: 14px;
+	}
+
+	&-primary {
+		background-color: #1DA1F2D6;
+		color: white;
+		transition: all .2s;
+		&:hover {
+			background-color: #002f46;
+		}
+	}
+	&-light {
+		color: #282828;
+		background-color: lightgrey;
+		transition: all .2s;
+
+		&:hover {
+			color: white;
+			background-color: #282828;
+		}
+	}
+	&-dark {
+		color: #fff;
+		background-color: #282828;
+		transition: all .2s;
+
+		&:hover {
+			color: #282828;
+			background-color: lightgrey;
+		}
+	}
+
+	&-group {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	@media screen and (max-width: 1050px) {
+		font-size: 16px;
+		&-icon-container {
+			font-size: 20px;
+		}
+	}
+}

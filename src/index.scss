@@ -1,0 +1,12 @@
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+}
+
+*{margin: 0; padding: 0}
+
+body {
+	font-family: 'Dosis', sans-serif;	
+	letter-spacing: .8px;
+}
