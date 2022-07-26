@@ -1,0 +1,37 @@
+.cart-dropdown {
+	position: absolute;
+	right: 24px;
+	top: 90px;
+	border: 2px solid #000;
+	border-radius: 4px;
+	height: 32rem;
+	width: 20rem;
+	padding: 1rem;
+	z-index: 200;
+	background-color: rgba(255, 255, 255, .9);
+
+	&:before,&:after {
+		--top-pos: -6%;
+		content: "";
+		position: absolute;
+		border: 16px solid transparent;
+		border-bottom-color: white;
+		top: var(--top-pos);
+		right: 8%;	
+	}
+	&:before {
+		border-bottom-color: #000;
+		top: calc(var(--top-pos) - 3px);
+	}
+	& > button {
+		position: absolute;
+		bottom: 1rem;
+		width: 90%;
+	}
+}
+
+.items-container {
+	height: 88%;
+	overflow-y: auto;
+	border-bottom: 2px solid #777;
+}

@@ -1,4 +1,4 @@
-// Everthing related to firebase should be here 
+// Everthing related to firebase should be here
 import { initializeApp } from "firebase/app";
 import {
 	getAuth,
@@ -7,14 +7,11 @@ import {
 	GoogleAuthProvider,
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
-	sendEmailVerification
+	signOut,
+	onAuthStateChanged,
+	sendEmailVerification,
 } from "firebase/auth";
-import {
-	getFirestore,
-	doc,
-	getDoc,
-	setDoc
-} from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyCAJYApU-BKznUWyh0U-uVyEq50NhvMDhc",
@@ -30,25 +27,26 @@ const firebaseApp = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 
 provider.setCustomParameters({
-	prompt: "select_account"
+	prompt: "select_account",
 });
 
 const auth = getAuth();
 
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
-export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider);
+export const signInWithGoogleRedirect = () =>
+	signInWithRedirect(auth, provider);
 
 export const db = getFirestore();
 
-export const createUserFromAuth = async (userAuth, additionalInfo={}) => {
-	if(!userAuth) return;
+export const createUserFromAuth = async (userAuth, additionalInfo = {}) => {
+	if (!userAuth) return;
 
 	const userDocRef = doc(db, "users", userAuth.uid);
 	const userSnapshot = await getDoc(userDocRef);
 
 	if (!userSnapshot.exists()) {
 		try {
-			const {displayName, email} = userAuth;
+			const { displayName, email } = userAuth;
 			const createdAt = new Date();
 
 			await setDoc(userDocRef, {
@@ -57,20 +55,23 @@ export const createUserFromAuth = async (userAuth, additionalInfo={}) => {
 				createdAt,
 				...additionalInfo,
 			});
-
-		} catch(e) {
+		} catch (e) {
 			console.log("There is some err with user setDoc err: " + e);
 		}
 	}
 
 	return userDocRef;
-}
+};
 
 export const createUserFromEmailFromAuth = async (email, password) => {
-	if(!email || !password) return;
+	if (!email || !password) return;
 
-	const response = await createUserWithEmailAndPassword(auth, email, password);
-	// Sending verfication code
+	const response = await createUserWithEmailAndPassword(
+		auth,
+		email,
+		password
+	);
+	// Sending verfication code functionality
 	// if (response) {
 	// 	try {
 	// 		await sendEmailVerification(auth.currentUser);
@@ -80,12 +81,18 @@ export const createUserFromEmailFromAuth = async (email, password) => {
 	// 	}
 	// }
 	return response;
-}
+};
 
 export const signInUserFromEmailFromAuth = async (email, password) => {
-	if(!email || !password) return;
+	if (!email || !password) return;
 
 	const response = await signInWithEmailAndPassword(auth, email, password);
 
 	return response;
-}
+};
+
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callback) =>
+	// below func. return a "unsubscribe" func. when invoked it'll stop Listening to authChanged 
+	onAuthStateChanged(auth, callback);

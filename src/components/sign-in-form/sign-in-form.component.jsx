@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
 	signInUserFromEmailFromAuth,
 	signInWithGooglePopup,
-	createUserFromAuth,
 } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../../components/form-input/form-input.component";
@@ -15,11 +14,6 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
-	const signInWithGoogle = async () => {
-		const response = await signInWithGooglePopup();
-		await createUserFromAuth(response.user);
-	};
-
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const { email, password } = formFields;
 
@@ -36,20 +30,25 @@ const SignInForm = () => {
 		}));
 	};
 
+	const signInWithGoogle = async () => {
+		const {user} = await signInWithGooglePopup();
+		// Removed createUserfromauth to contexts/user.context
+	};
+	
+	// Handle Signing-in for user email password
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			// returns response => userCred
+			// returns response obj => response.user is UserCredential
 			await signInUserFromEmailFromAuth(email, password);
 			resetFormFields();
-
 		} catch (err) {
 			switch (err.code) {
 				case "auth/wrong-password":
-					alert("Incorrect Password for the Email");
+					alert("Incorrect Password for the entered Email!");
 					break;
 				case "auth/user-not-found":
-					alert("no user with email exists")
+					alert("No user with Entered Email exists!")
 					break;
 				default: 
 					console.log(err);

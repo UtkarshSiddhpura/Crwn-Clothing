@@ -6,6 +6,7 @@ import {
 
 import FormInput from "../../components/form-input/form-input.component";
 import Button from "../../components/button/button.component";
+
 import "./sign-up-in-form.styles.scss";
 
 const defaultFormFields = {
@@ -40,10 +41,14 @@ const SignUpForm = () => {
 		}
 
 		try {
-			const response = await createUserFromEmailFromAuth(email, password);
-			const userDocRef = await createUserFromAuth(response.user, {
+			const { user } = await createUserFromEmailFromAuth(email, password);
+			// return the userDocumentReference
+			// can be also moved to a centralized place -> /contexts/user.context
+			// bt we need displayName for creating user so kept here
+			await createUserFromAuth(user, {
 				displayName,
 			});
+
 			resetFormFields();
 		} catch (e) {
 			if (e.code) alert("Error in creating user: " + e.code);

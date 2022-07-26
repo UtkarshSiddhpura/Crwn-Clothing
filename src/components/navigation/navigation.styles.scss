@@ -13,6 +13,12 @@
 		}
 	}
 
+	&-links {
+		min-width: 200px;
+		display: flex;
+		align-items: center;
+	}
+
 	&-link {
 		display: inline-block;
 		width: max-content;
@@ -55,9 +61,5 @@
 			width: 0px;
 			z-index: -1;
 		}
-	}
-	@media screen and (max-width: 585px) {
-		padding: 2rem 0;
-		flex-direction: column;
 	}
 }
