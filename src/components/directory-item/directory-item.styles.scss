@@ -1,4 +1,4 @@
-.category-container {
+.directory-item-container {
   min-width: 30%;
   height: 240px;
   margin: 0 10px 20px;
@@ -17,7 +17,7 @@
       transform: scale(1.15);
     }
 
-    & .category-body-container {
+    & .directory-item-body-container {
       box-shadow: 5px 5px 0 250px rgba(0, 0, 0, .3);
 
       h2,p{
@@ -58,7 +58,7 @@
     transition: transform .5s cubic-bezier(0.25, 0.45, 0.45, 0.95);
   }
 
-  .category-body-container {
+  .directory-item-body-container {
     text-transform: uppercase;
     height: 90px;
     padding: 5px 20px 0 20px;

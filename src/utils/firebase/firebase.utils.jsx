@@ -1,4 +1,4 @@
-// Everthing related to firebase should be here
+// This file is (interface Layer) Exposing firebase functions to other modules.
 import { initializeApp } from "firebase/app";
 import {
 	getAuth,
@@ -9,9 +9,18 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 	onAuthStateChanged,
-	sendEmailVerification,
+	// sendEmailVerification,
 } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+	getFirestore,
+	doc,
+	getDoc,
+	setDoc,
+	collection,
+	writeBatch,
+	query,
+	getDocs,
+} from "firebase/firestore";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyCAJYApU-BKznUWyh0U-uVyEq50NhvMDhc",
@@ -38,6 +47,31 @@ export const signInWithGoogleRedirect = () =>
 
 export const db = getFirestore();
 
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+	const collectionRef = collection(db, collectionKey);
+
+	const batch = writeBatch(db);
+	objectsToAdd.forEach(object => {
+		const objectRef = doc(collectionRef, object.title.toLowerCase());
+		batch.set(objectRef, object);
+	});
+
+	await batch.commit(); console.log("data added succesfully");
+}
+
+export const getCategoriesAndDocuments = async () => {
+	const collectionRef = collection(db, "categories");
+	const q = query(collectionRef);
+	const querySnapshot = await getDocs(q);
+
+	const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+		const { items, title } = docSnapshot.data();
+		acc[title.toLowerCase()] = items;
+		return acc;
+	}, {})
+	return categoryMap;
+}
+
 export const createUserFromAuth = async (userAuth, additionalInfo = {}) => {
 	if (!userAuth) return;
 
@@ -56,7 +90,7 @@ export const createUserFromAuth = async (userAuth, additionalInfo = {}) => {
 				...additionalInfo,
 			});
 		} catch (e) {
-			console.log("There is some err with user setDoc err: " + e);
+			console.log("There is some err with setting user err: " + e.code);
 		}
 	}
 
@@ -71,7 +105,7 @@ export const createUserFromEmailFromAuth = async (email, password) => {
 		email,
 		password
 	);
-	// Sending verfication code functionality
+	// Sending verfication code functionality Here jst for reference
 	// if (response) {
 	// 	try {
 	// 		await sendEmailVerification(auth.currentUser);
@@ -94,5 +128,5 @@ export const signInUserFromEmailFromAuth = async (email, password) => {
 export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
-	// below func. return a "unsubscribe" func. when invoked it'll stop Listening to authChanged 
+	// below func. return a "unsubscribe" func. when invoked it'll stop Listening to authChanged
 	onAuthStateChanged(auth, callback);
