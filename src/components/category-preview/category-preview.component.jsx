@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import ProductCard from "../product-card/product-card.component";
 
-import "./category-preview.styles.scss";
+import { ProductsContainer, Title } from "./category-preview.styles";
 
 const CategoryPreview = ({ title, products }) => {
 	const navigate = useNavigate();
@@ -13,15 +13,15 @@ const CategoryPreview = ({ title, products }) => {
 
 	return (
 		<>
-			<h2
+			<Title
 				className="title"
 				onClick={() => {
 					goToParticularCategory(title);
 				}}
 			>
 				{title}
-			</h2>
-			<div className="products-container">
+			</Title>
+			<ProductsContainer>
 				{products
 					.filter((_, idx) => idx < 4)
 					.map((product) => (
@@ -30,7 +30,7 @@ const CategoryPreview = ({ title, products }) => {
 							product={product}
 						></ProductCard>
 					))}
-			</div>
+			</ProductsContainer>
 		</>
 	);
 };

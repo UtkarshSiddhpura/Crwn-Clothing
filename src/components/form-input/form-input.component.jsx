@@ -1,17 +1,11 @@
-import "./form-input.styles.scss";
+import { Group, Input, Label } from "./form-input.styles";
 
 const FormInput = ({ label, inputOptions }) => {
 	return (
-		<div className="form-group">
-			<input className="form-input" {...inputOptions} />
-			{label && (
-				<label
-					className="form-input-label"
-				>
-					{label}
-				</label>
-			)}
-		</div>
+		<Group>
+			<Input {...inputOptions} />
+			{label && <Label>{label}</Label>}
+		</Group>
 	);
 };
 

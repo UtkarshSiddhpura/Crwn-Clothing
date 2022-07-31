@@ -5,8 +5,11 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../../components/form-input/form-input.component";
-import Button from "../../components/button/button.component";
+import Button, {BUTTON_TYPE_CLASSES} from "../../components/button/button.component";
 import { FcGoogle } from "react-icons/fc";
+
+import { Group } from "./sign-in-form.styles";
+import { FormContainer } from "../sign-up-form/sign-up-form.styles";
 
 const defaultFormFields = {
 	email: "",
@@ -32,7 +35,6 @@ const SignInForm = () => {
 
 	const signInWithGoogle = async () => {
 		const {user} = await signInWithGooglePopup();
-		// Removed createUserfromauth to contexts/user.context
 	};
 	
 	// Handle Signing-in for user email password
@@ -57,7 +59,7 @@ const SignInForm = () => {
 	};
 
 	return (
-		<div className="sign-in-container">
+		<FormContainer>
 			<h2>Already have an account..</h2>
 			<span>Sign in using Email & Password</span>
 			<form onSubmit={handleSubmit}>
@@ -84,23 +86,23 @@ const SignInForm = () => {
 						placeholder: "Password",
 					}}
 				/>
-				<div className="button-group">
+				<Group>
 					<Button
 						children="Sign-in"
-						buttonType="button-light"
+						buttonType={BUTTON_TYPE_CLASSES.base}
 						type="submit"
 					/>
 
 					<Button
 						children= "Sign in with Google"
 						icon={<FcGoogle/>}
-						buttonType="button-primary"
+						buttonType={BUTTON_TYPE_CLASSES.primary}
 						type="button"
 						onClick={signInWithGoogle}
 					/>
-				</div>
+				</Group>
 			</form>
-		</div>
+		</FormContainer>
 	);
 };
 

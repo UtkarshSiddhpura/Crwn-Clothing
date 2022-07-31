@@ -1,5 +1,4 @@
-import { FaShoppingCart } from "react-icons/fa";
-import "./cart-icon.styles.scss";
+import { CardButton, CartCount, CartSvg } from "./cart-icon.styles";
 
 import { useContext } from "react";
 import { CartContext } from "../../contexts/cart.context";
@@ -12,13 +11,10 @@ const CartIcon = () => {
 	};
 
 	return (
-		<button
-			className="cart"
-			onClick={toggleIsCartOpen}
-			cart-size={cartCount}
-		>
-			<FaShoppingCart />
-		</button>
+		<CardButton onClick={toggleIsCartOpen}>
+			<CartCount>{cartCount}</CartCount>
+			<CartSvg />
+		</CardButton>
 	);
 };
 

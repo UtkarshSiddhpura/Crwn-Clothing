@@ -5,9 +5,9 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import FormInput from "../../components/form-input/form-input.component";
-import Button from "../../components/button/button.component";
+import Button, {BUTTON_TYPE_CLASSES} from "../../components/button/button.component";
 
-import "./sign-up-in-form.styles.scss";
+import { FormContainer } from "./sign-up-form.styles";
 
 const defaultFormFields = {
 	displayName: "",
@@ -56,7 +56,7 @@ const SignUpForm = () => {
 	};
 
 	return (
-		<div className="sign-up-container">
+		<FormContainer>
 			<h2>Don't have an account?</h2>
 			<span>Sign up using Email & Password</span>
 			<form onSubmit={handleSubmit}>
@@ -106,9 +106,9 @@ const SignUpForm = () => {
 						placeholder: "Confirm Password"
 					}}
 				/>
-				<Button children="Sign-Up" buttonType="button-dark" type="submit" />
+				<Button children="Sign-Up" buttonType={BUTTON_TYPE_CLASSES.inverted} type="submit" />
 			</form>
-		</div>
+		</FormContainer>
 	);
 };
 
