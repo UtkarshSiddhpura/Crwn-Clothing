@@ -1,25 +1,50 @@
-import { createContext, useState, useEffect } from "react";
-import { onAuthStateChangedListener, createUserFromAuth } from "../utils/firebase/firebase.utils"
+import { createContext, useReducer, useEffect } from "react";
+import {
+	onAuthStateChangedListener,
+	createUserFromAuth,
+} from "../utils/firebase/firebase.utils";
 
-// In order to use context we have to export :
-// 1) literal context
 export const UserContext = createContext({
 	currentUser: null,
 	setCurrentUser: () => null,
 });
 
-// 2) Provider to wrap around <App> component
+const USER_ACTION_TYPES = {
+	SET_CURRENT_USER: "SET_CURRENT_USER",
+};
+
+const userReducer = (state, action) => {
+	const { type, payload } = action;
+	switch (type) {
+		case USER_ACTION_TYPES.SET_CURRENT_USER:
+			return {
+				currentUser: payload,
+			};
+		default:
+			throw new Error("Unhandled userReducer:" + type);
+	}
+};
+
+const INITIAL_STATE = {
+	currentUser: null,
+};
+
 export const UserProvider = ({ children }) => {
+	const [state, dispatch] = useReducer(userReducer, INITIAL_STATE);
+	const { currentUser } = state;
+
+	const setCurrentUser = (user) => {
+		dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user });
+	};
+
 	useEffect(() => {
-		// it can be async or idk !work needed here 
 		const unsubscribe = onAuthStateChangedListener((user) => {
 			setCurrentUser(user);
 			createUserFromAuth(user);
 		});
 		return unsubscribe;
-	}, [])
+	}, []);
 
-	const [currentUser, setCurrentUser] = useState(null);
 	const value = {
 		currentUser,
 		setCurrentUser,
