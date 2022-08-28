@@ -1,11 +1,11 @@
-import { useContext } from "react";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { ReactComponent as CrwnLogo } from "../../assets/logo.svg";
 import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 
-import { CartContext } from "../../contexts/cart.context";
-import { UserContext } from "../../contexts/user.context";
+import { selectIsCartOpen } from "../../store/cart/cart.selector";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 
@@ -17,8 +17,8 @@ import {
 } from "./navigation.styles";
 
 const Navigation = () => {
-	const { currentUser } = useContext(UserContext);
-	const { isCartOpen } = useContext(CartContext);
+	const currentUser = useSelector(selectCurrentUser);
+	const isCartOpen = useSelector(selectIsCartOpen);
 
 	const signOutHandler = async () => {
 		await signOutUser();
@@ -28,23 +28,16 @@ const Navigation = () => {
 		<>
 			<NavContainer>
 				<LogoContainer to="/">
-						<CrwnLogo title="logo" />
+					<CrwnLogo title="logo" />
 				</LogoContainer>
 				<NavLinks>
-					<NavLink to="/shop">
-						Shop
-					</NavLink>
+					<NavLink to="/shop">Shop</NavLink>
 					{currentUser ? (
-						<NavLink
-							as="span"
-							onClick={signOutHandler}
-						>
+						<NavLink as="span" onClick={signOutHandler}>
 							sign-out
 						</NavLink>
 					) : (
-						<NavLink to="/auth">
-							sign-in
-						</NavLink>
+						<NavLink to="/auth">sign-in</NavLink>
 					)}
 					<CartIcon />
 				</NavLinks>

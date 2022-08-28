@@ -47,30 +47,29 @@ export const signInWithGoogleRedirect = () =>
 
 export const db = getFirestore();
 
-export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+export const addCollectionAndDocuments = async (
+	collectionKey,
+	objectsToAdd
+) => {
 	const collectionRef = collection(db, collectionKey);
 
 	const batch = writeBatch(db);
-	objectsToAdd.forEach(object => {
+	objectsToAdd.forEach((object) => {
 		const objectRef = doc(collectionRef, object.title.toLowerCase());
 		batch.set(objectRef, object);
 	});
 
-	await batch.commit(); console.log("data added succesfully");
-}
+	await batch.commit();
+	console.log("data added succesfully");
+};
 
 export const getCategoriesAndDocuments = async () => {
 	const collectionRef = collection(db, "categories");
 	const q = query(collectionRef);
 	const querySnapshot = await getDocs(q);
 
-	const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-		const { items, title } = docSnapshot.data();
-		acc[title.toLowerCase()] = items;
-		return acc;
-	}, {})
-	return categoryMap;
-}
+	return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
+};
 
 export const createUserFromAuth = async (userAuth, additionalInfo = {}) => {
 	if (!userAuth) return;

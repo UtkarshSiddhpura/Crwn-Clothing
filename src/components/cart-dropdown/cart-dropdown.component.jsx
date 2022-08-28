@@ -2,18 +2,20 @@ import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
 
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { CartContext } from "../../contexts/cart.context";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCartItems } from "../../store/cart/cart.selector";
+import { setIsCartOpen } from "../../store/cart/cart.action";
 
 import { CartDropdownContainer, ItemsContainer } from "./cart-dropdown.styles";
 
 const CartDropdown = () => {
-	const { cartItems, setIsCartOpen } = useContext(CartContext);
+	const dispatch = useDispatch();
+	const cartItems = useSelector(selectCartItems);
 	const navigate = useNavigate();
 
 	const navigateToCheckout = async () => {
 		navigate("/checkout");
-		setIsCartOpen(false);
+		dispatch(setIsCartOpen(false));
 	};
 
 	return (
