@@ -11,7 +11,7 @@ import { fetchCategoriesAsync } from "../../store/categories/category.action";
 const Shop = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(fetchCategoriesAsync);
+		dispatch(fetchCategoriesAsync());
 	}, []);
 
 	return (
