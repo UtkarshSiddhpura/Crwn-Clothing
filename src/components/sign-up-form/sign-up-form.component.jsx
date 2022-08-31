@@ -1,11 +1,12 @@
 import { useState } from "react";
-import {
-	createUserFromAuth,
-	createUserFromEmailFromAuth,
-} from "../../utils/firebase/firebase.utils";
+import { useDispatch } from "react-redux";
+
+import { signUpStart } from "../../store/user/user.action";
 
 import FormInput from "../../components/form-input/form-input.component";
-import Button, {BUTTON_TYPE_CLASSES} from "../../components/button/button.component";
+import Button, {
+	BUTTON_TYPE_CLASSES,
+} from "../../components/button/button.component";
 
 import { FormContainer } from "./sign-up-form.styles";
 
@@ -17,6 +18,8 @@ const defaultFormFields = {
 };
 
 const SignUpForm = () => {
+	const dispatch = useDispatch();
+
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const { displayName, email, password, confirmPassword } = formFields;
 
@@ -39,20 +42,8 @@ const SignUpForm = () => {
 			alert("Password don't match");
 			return;
 		}
-
-		try {
-			const { user } = await createUserFromEmailFromAuth(email, password);
-			// return the userDocumentReference
-			// can be also moved to a centralized place -> /contexts/user.context
-			// bt we need displayName for creating user so kept here
-			await createUserFromAuth(user, {
-				displayName,
-			});
-
-			resetFormFields();
-		} catch (e) {
-			if (e.code) alert("Error in creating user: " + e.code);
-		}
+		dispatch(signUpStart(email, password, displayName));
+		resetFormFields();
 	};
 
 	return (
@@ -69,7 +60,7 @@ const SignUpForm = () => {
 						value: displayName,
 						required: true,
 						type: "text",
-						placeholder: "Display Name"
+						placeholder: "Display Name",
 					}}
 				/>
 				<FormInput
@@ -81,7 +72,7 @@ const SignUpForm = () => {
 						required: true,
 						type: "email",
 						autoComplete: "off",
-						placeholder: "Email"
+						placeholder: "Email",
 					}}
 				/>
 				<FormInput
@@ -92,7 +83,7 @@ const SignUpForm = () => {
 						value: password,
 						required: true,
 						type: "password",
-						placeholder: "Password"
+						placeholder: "Password",
 					}}
 				/>
 				<FormInput
@@ -103,10 +94,14 @@ const SignUpForm = () => {
 						value: confirmPassword,
 						required: true,
 						type: "password",
-						placeholder: "Confirm Password"
+						placeholder: "Confirm Password",
 					}}
 				/>
-				<Button children="Sign-Up" buttonType={BUTTON_TYPE_CLASSES.inverted} type="submit" />
+				<Button
+					children="Sign-Up"
+					buttonType={BUTTON_TYPE_CLASSES.inverted}
+					type="submit"
+				/>
 			</form>
 		</FormContainer>
 	);
