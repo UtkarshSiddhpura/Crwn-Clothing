@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { LoaderDiv } from "../loader/loader.styles";
 
 export const IconContainer = styled.div`
 	position: absolute;
@@ -35,9 +36,17 @@ export const BaseButton = styled.button`
 		background-color: var(--color-dark);
 	}
 
-	${({icon}) => (icon && `
+	${({ icon }) =>
+		icon &&
+		`
 		padding: 1rem 1.3em 1rem 2.6em;
-	`)}
+	`}
+
+	${({ disabled }) =>
+		disabled &&
+		`
+		pointer-events: none;		
+	`}
 
 	@media screen and (max-width: 1050px) {
 		font-size: 16px;
@@ -67,4 +76,11 @@ export const PrimaryButton = styled(BaseButton)`
 	&:hover {
 		background-color: #002f46;
 	}
+`;
+
+export const ButtonSpinner = styled(LoaderDiv)`
+	--border-size: 10px;
+	position: relative;
+	top: 0; left: 0;
+	transform: translate(-10px, -10px);
 `;

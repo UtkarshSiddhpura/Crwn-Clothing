@@ -1,4 +1,5 @@
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
+import StripePaymentForm from "../../components/stripe-payment-form/stripe-payment-form.component";
 
 import { useSelector } from "react-redux";
 import {
@@ -26,6 +27,7 @@ const Checkout = () => {
 				<CheckoutItem key={cartItem.id} checkoutItem={cartItem} />
 			))}
 			<div className="total">Total: ${cartTotal}</div>
+			<StripePaymentForm />
 		</div>
 	);
 };

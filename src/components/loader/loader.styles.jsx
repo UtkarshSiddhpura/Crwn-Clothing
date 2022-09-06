@@ -1,10 +1,12 @@
 import styled from "styled-components";
 
 export const LoaderDiv = styled.div`
+	--border-size: 30px;
+
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	transform: translate(-30px, -30px); 
+	transform: translate(-30px, -30px);
 
 	&::before,
 	&::after {
@@ -12,12 +14,13 @@ export const LoaderDiv = styled.div`
 		position: absolute;
 		width: 0;
 		height: 0;
-		border: 30px solid transparent;
+		border: var(--border-size) solid transparent;
 		border-bottom-color: #808282;
 	}
 
 	&:before {
 		animation: rotateB 2s infinite /* 0.5s */;
+		border-bottom-color: cyan;
 	}
 
 	&:after {
