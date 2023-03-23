@@ -14,7 +14,7 @@ import {
 	getCurrentUser,
 	createUserFromAuth,
 	signInUserFromEmailFromAuth,
-	signInWithGoogleRedirect,
+	signInWithGooglePopup,
 	createUserFromEmailFromAuth,
 	signOutUser,
 } from "../../utils/firebase/firebase.utils";
@@ -46,7 +46,7 @@ export function* isUserAuthenticated() {
 
 export function* signInWithGoogle() {
 	try {
-		const { user } = yield call(signInWithGoogleRedirect);
+		const { user } = yield call(signInWithGooglePopup);
 		console.log(user);
 
 		yield put(signInSuccess(user));
